@@ -1,0 +1,12 @@
+:root {
+    --amount-items-in-cart: 0;
+  }
+  .img-thumb-container:hover img {
+    opacity: 0.75;
+  }
+
+  .btn-custom{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
