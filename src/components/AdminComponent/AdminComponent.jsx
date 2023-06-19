@@ -1,14 +1,11 @@
 import { styled, createTheme } from '@mui/material/styles';
 import {
-    Badge,
     Box,
     Container,
     CssBaseline,
     Divider,
-    Grid,
     IconButton,
     List,
-    Paper,
     ThemeProvider,
     Toolbar,
     Typography,
@@ -18,10 +15,9 @@ import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import React from 'react'
 import { mainListItems } from './listItems';
-import OrderLIst from '../OrderList/OrderLIstComponent';
+import { Outlet } from 'react-router-dom';
 
 
 function Copyright(props) {
@@ -86,11 +82,13 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 
-const AdminComponent = ({orders, loadOrders}) => {
+const AdminComponent = () => {
     const [open, setOpen] = React.useState(true);
     const toggleDrawer = () => {
         setOpen(!open);
     };
+
+    
     return (
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: 'flex' }}>
@@ -120,13 +118,8 @@ const AdminComponent = ({orders, loadOrders}) => {
                             noWrap
                             sx={{ flexGrow: 1 }}
                         >
-                            Dashboard
+                            Адмін панель
                         </Typography>
-                        <IconButton color="inherit">
-                            <Badge badgeContent={4} color="secondary">
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton>
                     </Toolbar>
                 </AppBar>
                 <Drawer variant="permanent" open={open}>
@@ -162,14 +155,7 @@ const AdminComponent = ({orders, loadOrders}) => {
                 >
                     <Toolbar />
                     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-                        <Grid container spacing={3}>
-                            <Grid item xs={12}>
-                                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                    <OrderLIst orders={orders} loadOrders={loadOrders} />
-                                </Paper>
-                            </Grid>
-                        </Grid>
-                        <Copyright sx={{ pt: 4 }} />
+                        <Outlet/>
                     </Container>
                 </Box>
             </Box>

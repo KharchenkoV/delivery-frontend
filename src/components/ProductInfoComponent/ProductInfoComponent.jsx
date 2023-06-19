@@ -3,7 +3,7 @@ import ProductService from '../../services/product.service'
 import './style.css'
 import { useParams } from 'react-router-dom'
 
-const ProductInfoComponent = ({addToBucket}) => {
+const ProductInfoComponent = () => {
     const [product, setProduct] = useState()
     let { id } = useParams()
     useEffect(() => {
@@ -18,7 +18,7 @@ const ProductInfoComponent = ({addToBucket}) => {
     }, [id])
     return (
         <main>
-            <div className="container-md mb-3">
+            <div className="container-md mb-3" style={{backgroundColor: 'white', marginTop: 25, padding: 15}}>
                 <div className="row row-cols-1 row-cols-md-2 gx-md-5 align-items-md-center">
                     <div className="section__images col col-md-6 d-none d-md-block mt-5">
                         <div className='p-0 bg-transparent border-0'>

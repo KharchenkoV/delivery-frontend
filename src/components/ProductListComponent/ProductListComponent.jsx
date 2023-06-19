@@ -17,7 +17,7 @@ const ProductListComponent = ({ addToBucket }) => {
     }, [])
     return (
         <main className='content'>
-            <Toolbar >
+            <Toolbar sx={{py: 3, backgroundColor: 'white'}}>
                 <Grid container justify="center" spacing={4}>
                     {products.map(product => (
                         <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>

@@ -1,34 +1,25 @@
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+import { Box, Button, Container, Grid, Paper, TextField, Typography } from '@mui/material'
 import React from 'react'
-import AuthenticationService from "../../services/authentication.service";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Paper } from "@mui/material";
+import AuthenticationService from '../../services/authentication.service'
+import { useNavigate } from 'react-router-dom'
 
-const Login = () => {
+
+
+
+const RegisterComponent = () => {
     const navigate = useNavigate()
-    const location = useLocation()
-    const from = location.state?.from?.pathname || '/'
     const handleSubmit = (e) => {
         e.preventDefault()
         const data = new FormData(e.currentTarget)
-        AuthenticationService.login(
+        AuthenticationService.register(
             data.get('email'),
+            data.get('firstname'),
+            data.get('lastname'),
+            data.get('phone'),
             data.get('password')
         ).then(res => {
-            console.log(res)
-            if (res['role'] === 'ADMIN') {
-                navigate('/admin')
-                window.location.reload();
-            } else {
-                navigate(from, { replace: true });
-                window.location.reload();
-            }
+            navigate('/')
+            window.location.reload();
         })
 
     }
@@ -47,9 +38,9 @@ const Login = () => {
                             }}
                         >
                             <Typography component="h1" variant="h5">
-                                Вхід
+                                Реєстрація
                             </Typography>
-                            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, px: 20 }}>
                                 <TextField
                                     margin="normal"
                                     required
@@ -59,6 +50,36 @@ const Login = () => {
                                     name="email"
                                     autoComplete="email"
                                     autoFocus
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="phone"
+                                    label="Номер Телефону"
+                                    name="phone"
+                                    autoComplete="firstname"
+
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="firstname"
+                                    label="Ім'я"
+                                    name="firstname"
+                                    autoComplete="firstname"
+
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="lastname"
+                                    label="Прізвище"
+                                    name="lastname"
+                                    autoComplete="lastname"
+
                                 />
                                 <TextField
                                     margin="normal"
@@ -76,16 +97,9 @@ const Login = () => {
                                     variant="contained"
                                     sx={{ mt: 3, mb: 2 }}
                                 >
-                                    Увійти
+                                    Підтвердити
                                 </Button>
-                                <Grid container>
 
-                                    <Grid item>
-                                        <Link href="/register" variant="body1">
-                                            {"Немає акаунта? Зареєструватись"}
-                                        </Link>
-                                    </Grid>
-                                </Grid>
                             </Box>
                         </Box>
                     </Paper>
@@ -95,4 +109,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default RegisterComponent

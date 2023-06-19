@@ -14,7 +14,14 @@ import OrderDetail from './components/OrderDetailComponent/OrderDetailComponent'
 import OrderService from './services/order.service';
 import Admin from './components/AdminComponent/AdminComponent';
 import RequiredAuth from './components/RequiredAuth';
-
+import Register from './components/AuthComponents/RegisterComponent';
+import OrderManagment from './components/AdminComponent/OrderManagmentComponent';
+import OrderHistory from './components/AdminComponent/OrderHistory';
+import StripeComponent from './components/StripeComponent';
+import './index.css'
+import Profile from './components/Profile';
+import Clients from './components/AdminComponent/Clients';
+import AboutUs from './components/AboutUs';
 
 
 
@@ -33,16 +40,6 @@ export default function App() {
     })
   }, [])
 
-  const loadAllOrders = () => {
-    OrderService.getOrders().then(res => {
-      setOrders(res.data)
-    }).catch(error => {
-      console.log(error)
-      if (error.response.status === 401) {
-        AuthenticationService.logout()
-      }
-    })
-  }
 
   const loadActiveOrdersForUser = () => {
     OrderService.getActiveOrdersForUser().then(res => {
@@ -103,7 +100,10 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Navbar amountProducts={bucket.amountProducts} />}>
           <Route index element={<ProductList addToBucket={addToBucket} />} />
+          <Route path='/product/:id' element={<ProductInfo addToBucket={addToBucket} />} />
+          <Route path='/aboutus' element={<AboutUs/>} />
           <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
           <Route element={<RequiredAuth allowedRole={'USER'} />}>
             <Route path='/bucket' element={<Bucket
               bucket={bucket}
@@ -112,13 +112,19 @@ export default function App() {
               deleteAllProductFromBucket={deleteAllProductFromBucket}
               cleanBucket={cleanBucket}
             />} />
-
-            <Route path='/product/:id' element={<ProductInfo addToBucket={addToBucket} />} />
-            <Route path='/orders' element={<OrderLIst orders={orders} loadOrders={loadActiveOrdersForUser} />} />
+            <Route path='/profile/:id' element={<Profile/>}/>
+            <Route path='/orders' element={<OrderLIst orders={orders} loadOrders={loadActiveOrdersForUser} label={"Список замовлень"} />} />
             <Route path='/order/:id' element={<OrderDetail />} />
+            <Route path='/payment/:id' element={<StripeComponent/>}/>
           </Route>
-          <Route element={<RequiredAuth allowedRole={'ADMIN'} />}>
-            <Route path='/admin' element={<Admin orders={orders} loadOrders={loadAllOrders} />} />
+        </Route>
+        <Route path='/admin' element={<RequiredAuth allowedRole={'ADMIN'} />}>
+          <Route element={<Admin />} >
+            <Route index element={<OrderManagment />} />
+            <Route path='history' element={<OrderHistory/>}/>
+            <Route path='/admin/order/:id' element={<OrderDetail />}/>
+            <Route path='/admin/profile/:id' element={<Profile/>}/>
+            <Route path='/admin/clients' element={<Clients/>}/>
           </Route>
         </Route>
       </Routes>

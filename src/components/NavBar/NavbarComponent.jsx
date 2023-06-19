@@ -15,6 +15,7 @@ import { Outlet, Link } from "react-router-dom";
 import { Badge } from "@mui/material";
 import { ShoppingCart } from "@mui/icons-material";
 import AuthenticationService from "../../services/authentication.service";
+import './style.css'
 
 const NavbarComponent = ({ amountProducts }) => {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -27,7 +28,7 @@ const NavbarComponent = ({ amountProducts }) => {
         }
     }, [])
 
-    
+
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
@@ -45,10 +46,9 @@ const NavbarComponent = ({ amountProducts }) => {
 
     return (
         <>
-            <AppBar position="static">
+            <AppBar position="static" style={{ background: 'transparent' }}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
-                        <LogoDevIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
                         <Typography
                             variant="h6"
                             noWrap
@@ -63,7 +63,7 @@ const NavbarComponent = ({ amountProducts }) => {
                                 cursor: 'pointer'
                             }}
                         >
-                            LOGO
+                            Гурман
                         </Typography>
                         <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                             <Link to='/'>
@@ -71,6 +71,13 @@ const NavbarComponent = ({ amountProducts }) => {
                                     sx={{ my: 2, color: "white", display: "block" }}
                                 >
                                     Меню
+                                </Button>
+                            </Link>
+                            <Link to='/aboutus'>
+                                <Button
+                                    sx={{ my: 2, color: "white", display: "block" }}
+                                >
+                                    Про нас
                                 </Button>
                             </Link>
 
@@ -104,11 +111,8 @@ const NavbarComponent = ({ amountProducts }) => {
                                         open={Boolean(anchorElUser)}
                                         onClose={handleCloseUserMenu}
                                     >
-                                        <MenuItem onClick={handleCloseUserMenu} component={Link} to={'/'}>
+                                        <MenuItem onClick={handleCloseUserMenu} component={Link} to={`/profile/${currentUser.id}`}>
                                             <Typography textAlign="center">Профіль</Typography>
-                                        </MenuItem>
-                                        <MenuItem onClick={handleCloseUserMenu} component={Link} to={'/'}>
-                                            <Typography textAlign="center">Акаунт</Typography>
                                         </MenuItem>
                                         <MenuItem onClick={handleCloseUserMenu} component={Link} to={'/orders'}>
                                             <Typography textAlign="center">Замовлення</Typography>
@@ -123,7 +127,7 @@ const NavbarComponent = ({ amountProducts }) => {
                             (
                                 <>
                                     <Button color="inherit" component={Link} to="/login">Вхід</Button>
-                                    <Button color="inherit">Реєстрація</Button>
+                                    <Button color="inherit" component={Link} to='/register'>Реєстрація</Button>
                                 </>
                             )
                         }

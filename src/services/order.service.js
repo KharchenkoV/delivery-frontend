@@ -18,5 +18,20 @@ export default class OrderService{
 
     static getActiveOrdersForUser = () => {
         return axios.get(`${API_URL}active/for/user`,  {headers: authHeader()})
+    }
+    static getFormedOrders = () => {
+        return axios.get(`${API_URL}formed`,  {headers: authHeader()})
+    }  
+    static getApprovedOrders = () => {
+        return axios.get(`${API_URL}approved`,  {headers: authHeader()})
     } 
+    static approveOrder = (id) => {
+        return axios.put(`${API_URL}approve/${id}`, {},  {'Content-Type':'multipart/form-data', headers: authHeader()})
+    }
+    static sendOrder = (id) => {
+        return axios.put(`${API_URL}send/${id}`, {},  {'Content-Type':'multipart/form-data', headers: authHeader()})
+    }
+    static cancelOrder = (id) => {
+        return axios.put(`${API_URL}cancel/${id}`, {},  {'Content-Type':'multipart/form-data', headers: authHeader()})
+    }
 }

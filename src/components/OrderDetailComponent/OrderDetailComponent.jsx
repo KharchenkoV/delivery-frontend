@@ -6,13 +6,16 @@ import {
     MDBContainer,
     MDBRow
 } from 'mdb-react-ui-kit'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import OrderService from '../../services/order.service'
 import './style.css'
+import { Button } from '@mui/material'
 
 const OrderDetailComponent = () => {
     const [order, setOrder] = useState({})
+    const role = JSON.parse(localStorage.user).role
     const { id } = useParams()
+    const navigate = useNavigate()
     useEffect(() => {
         OrderService.getOrderById(id).then(res => {
             setOrder(res.data)
@@ -21,9 +24,77 @@ const OrderDetailComponent = () => {
         })
     }, [id])
 
+    const approveOrder = (id) => {
+        OrderService.approveOrder(id).then(res => {
+            navigate('/admin')
+            window.location.reload();
+        }
+        ).catch(e => console.log(e))
+    }
+
+    const sendOrder = (id) => {
+        OrderService.sendOrder(id).then(res => {
+            navigate('/admin')
+            window.location.reload();
+        }
+        ).catch(e => console.log(e))
+    }
+    const cancelOrder = (id) => {
+        OrderService.cancelOrder(id).then(res => {
+            navigate('/orders')
+            window.location.reload();
+        }
+        ).catch(e => console.log(e))
+    }
+
+    const getAction = (status) => {
+        switch (status) {
+            case 'NEW':
+                if (role === 'ADMIN')
+                    return (
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                            style={{ backgroundColor: "#3f51b5" }}
+                            onClick={() => approveOrder(id)}
+                        >
+                            Підтвердити замовлення
+                        </Button>
+                    )
+                return (
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                        style={{ backgroundColor: "red" }}
+                        onClick={() => cancelOrder(id)}
+                    >
+                        Скасувати замовлення
+                    </Button>
+                )
+            case 'APPROVED':
+                if (role === 'ADMIN')
+                    return (
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                            style={{ backgroundColor: "#3f51b5" }}
+                            onClick={() => sendOrder(id)}
+                        >
+                            Відправити замовлення
+                        </Button>
+                    )
+                break;
+            default:
+                return;
+        }
+    }
+
     return (
         <>
-            <section className="h-100 h-custom" style={{ backgroundColor: "#eee" }}>
+            <section className="h-100 h-custom" >
                 <MDBContainer className="py-5 h-100">
                     <MDBRow className="justify-content-center align-items-center h-100">
                         <MDBCol lg="8" xl="6">
@@ -41,6 +112,21 @@ const OrderDetailComponent = () => {
                                         <MDBCol className="mb-3">
                                             <p className="small text-muted mb-1">Замовлення No.</p>
                                             <p>{order.id}</p>
+                                        </MDBCol>
+                                    </MDBRow>
+                                    <MDBRow>
+                                        <MDBCol className="mb-3">
+                                            <p className="small text-muted mb-1">Оплата</p>
+                                            <p>{order.paymentStatus === 'PAID' ? 'Оплачено' : 
+                                            (<Button
+                                                href={`/payment/${id}`}
+                                                variant="contained"
+                                                sx={{ mt: 3, mb: 2 }}
+                                                style={{ backgroundColor: "red" }}
+                                                
+                                            >
+                                                Оплатити
+                                            </Button>)}</p>
                                         </MDBCol>
                                     </MDBRow>
 
@@ -131,6 +217,11 @@ const OrderDetailComponent = () => {
                                                     </li>
                                                 </ul>
                                             </div>
+                                        </MDBCol>
+                                    </MDBRow>
+                                    <MDBRow >
+                                        <MDBCol md="4" >
+                                            {getAction(order.status)}
                                         </MDBCol>
                                     </MDBRow>
                                 </MDBCardBody>
