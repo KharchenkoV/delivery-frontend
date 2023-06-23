@@ -51,6 +51,8 @@ const NavbarComponent = ({ amountProducts }) => {
                     <Toolbar disableGutters>
                         <Typography
                             variant="h6"
+                            component={Link}
+                            to='/'
                             noWrap
                             sx={{
                                 mr: 2,
@@ -63,14 +65,21 @@ const NavbarComponent = ({ amountProducts }) => {
                                 cursor: 'pointer'
                             }}
                         >
-                            Гурман
+                            Ст. Мізоч
                         </Typography>
                         <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                            <Link to='/'>
+                            <Link to='/menu'>
                                 <Button
                                     sx={{ my: 2, color: "white", display: "block" }}
                                 >
                                     Меню
+                                </Button>
+                            </Link>
+                            <Link to='/booking'>
+                                <Button
+                                    sx={{ my: 2, color: "white", display: "block" }}
+                                >
+                                    Забронювати
                                 </Button>
                             </Link>
                             <Link to='/aboutus'>
@@ -78,6 +87,13 @@ const NavbarComponent = ({ amountProducts }) => {
                                     sx={{ my: 2, color: "white", display: "block" }}
                                 >
                                     Про нас
+                                </Button>
+                            </Link>
+                            <Link to='/gallery'>
+                                <Button
+                                    sx={{ my: 2, color: "white", display: "block" }}
+                                >
+                                    Галерея
                                 </Button>
                             </Link>
 

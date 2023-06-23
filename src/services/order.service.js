@@ -34,4 +34,7 @@ export default class OrderService{
     static cancelOrder = (id) => {
         return axios.put(`${API_URL}cancel/${id}`, {},  {'Content-Type':'multipart/form-data', headers: authHeader()})
     }
+    static finishOrder = (id) => {
+        return axios.put(`${API_URL}finish/${id}`, {},  {'Content-Type':'multipart/form-data', headers: authHeader()})
+    }
 }

@@ -22,6 +22,9 @@ import './index.css'
 import Profile from './components/Profile';
 import Clients from './components/AdminComponent/Clients';
 import AboutUs from './components/AboutUs';
+import Booking from './components/Booking';
+import Home from './components/Home';
+import Gallery from './components/Gallery';
 
 
 
@@ -99,9 +102,11 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navbar amountProducts={bucket.amountProducts} />}>
-          <Route index element={<ProductList addToBucket={addToBucket} />} />
+          <Route index element={<Home/>}/>
+          <Route path='/menu' element={<ProductList addToBucket={addToBucket} />} />
           <Route path='/product/:id' element={<ProductInfo addToBucket={addToBucket} />} />
           <Route path='/aboutus' element={<AboutUs/>} />
+          <Route path='/gallery' element={<Gallery/>}/>
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
           <Route element={<RequiredAuth allowedRole={'USER'} />}>
@@ -112,6 +117,7 @@ export default function App() {
               deleteAllProductFromBucket={deleteAllProductFromBucket}
               cleanBucket={cleanBucket}
             />} />
+            <Route path='/booking' element={<Booking/>} />
             <Route path='/profile/:id' element={<Profile/>}/>
             <Route path='/orders' element={<OrderLIst orders={orders} loadOrders={loadActiveOrdersForUser} label={"Список замовлень"} />} />
             <Route path='/order/:id' element={<OrderDetail />} />

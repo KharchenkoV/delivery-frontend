@@ -47,6 +47,14 @@ const OrderDetailComponent = () => {
         ).catch(e => console.log(e))
     }
 
+    const finishOrder = (id) => {
+        OrderService.finishOrder(id).then(res => {
+            navigate('/orders')
+            window.location.reload();
+        }
+        ).catch(e => console.log(e))
+    }
+
     const getAction = (status) => {
         switch (status) {
             case 'NEW':
@@ -73,6 +81,21 @@ const OrderDetailComponent = () => {
                         Скасувати замовлення
                     </Button>
                 )
+            case 'ON_THE_WAY':
+                if(role === 'USER'){
+                    return (
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                            style={{ backgroundColor: "#3f51b5" }}
+                            onClick={() => finishOrder(id)}
+                        >
+                            Закрити замовлення
+                        </Button>
+                    )
+                }
+                break;
             case 'APPROVED':
                 if (role === 'ADMIN')
                     return (
@@ -117,7 +140,7 @@ const OrderDetailComponent = () => {
                                     <MDBRow>
                                         <MDBCol className="mb-3">
                                             <p className="small text-muted mb-1">Оплата</p>
-                                            <p>{order.paymentStatus === 'PAID' ? 'Оплачено' : 
+                                            <p>{order.paymentStatus === 'PAID' ? 'Оплачено' : role === 'ADMIN' ? 'Неоплачено' :
                                             (<Button
                                                 href={`/payment/${id}`}
                                                 variant="contained"
